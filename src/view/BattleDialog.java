@@ -1,5 +1,6 @@
 package view;
 
+import modelo.PokemonFactory;
 import modelo.ResourceManager;
 
 import java.awt.BorderLayout;
@@ -17,7 +18,6 @@ public class BattleDialog extends JFrame {
 	private JButton endTurn;
 	private JLabel trainerIcon;
 	private JPanel pokePanelHolder;
-	private ArrayList<PokemonPanel> pokePanels;
 
 
 	/**
@@ -58,11 +58,10 @@ public class BattleDialog extends JFrame {
 		pokePanelHolder.setBackground(new Color(255, 255, 255));
 		contentPanel.add(pokePanelHolder, BorderLayout.CENTER);
 
-		pokePanels = new ArrayList<>();
 		for (int i = 0; i < 3; i++) {
-			//PokemonPanel pokePanel = new PokemonPanel();
-			//pokePanels.add(pokePanel);
-			//pokePanelHolder.add(pokePanel);
+			PokemonPanel pokePanel = new PokemonPanel();
+			pokePanelHolder.add(pokePanel);
+			PokemonFactory.createPokemon().addObserver(pokePanel);
 		}
 	}
 

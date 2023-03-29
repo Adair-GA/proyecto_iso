@@ -1,15 +1,12 @@
 package view;
 
 import modelo.Pokemon;
-import modelo.ResourceManager;
 
 import javax.swing.*;
 import java.awt.Color;
-import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Random;
 
 public class PokemonPanel extends JPanel implements Observer {
 	private final String info = """
@@ -24,15 +21,14 @@ public class PokemonPanel extends JPanel implements Observer {
 	private JTextArea infoTextArea;
 	private JLabel lblNewLabel;
 	private JPanel panel;
-	private JProgressBar progressBar;
-	private JProgressBar progressBar_1;
+	private JProgressBar life;
+	private JProgressBar euphoricMeter;
 
 
 	/**
 	 * Create the panel.
 	 */
-	public PokemonPanel(Pokemon pokemon) {
-		this.pokemon = pokemon;
+	public PokemonPanel() {
 		setBackground(new Color(255, 255, 255));
 		setLayout(new GridLayout(0, 1, 0, 0));
 
@@ -47,11 +43,11 @@ public class PokemonPanel extends JPanel implements Observer {
 		add(panel);
 		panel.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		progressBar = new JProgressBar();
-		panel.add(progressBar);
+		life = new JProgressBar();
+		panel.add(life);
 		
-		progressBar_1 = new JProgressBar();
-		panel.add(progressBar_1);
+		euphoricMeter = new JProgressBar();
+		panel.add(euphoricMeter);
 
 	}
 
