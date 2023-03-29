@@ -1,16 +1,24 @@
 package view;
 
+import modelo.ResourceManager;
+
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.GridLayout;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class BattleDialog extends JFrame {
 
 	private final JPanel contentPanel = new JPanel();
+	private JPanel playerPane;
+	private JButton endTurn;
+	private JLabel trainerIcon;
+	private JPanel pokePanelHolder;
+	private ArrayList<PokemonPanel> pokePanels;
+
 
 	/**
 	 * Launch the application.
@@ -30,29 +38,31 @@ public class BattleDialog extends JFrame {
 	 */
 	public BattleDialog() {
 		setBounds(100, 100, 450, 300);
+		setDefaultCloseOperation(3);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(255, 255, 255));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
-		{
-			JPanel playerPane = new JPanel();
-			playerPane.setBackground(new Color(255, 255, 255));
-			contentPanel.add(playerPane, BorderLayout.WEST);
-			playerPane.setLayout(new BorderLayout(0, 0));
-			{
-				JButton btnNewButton = new JButton("End turn");
-				playerPane.add(btnNewButton, BorderLayout.NORTH);
-			}
-			{
-				JLabel lblNewLabel = new JLabel("New label");
-				playerPane.add(lblNewLabel);
-			}
-		}
-		{
-			JPanel panel = new JPanel();
-			panel.setBackground(new Color(255, 255, 255));
-			contentPanel.add(panel, BorderLayout.CENTER);
+		playerPane = new JPanel();
+		playerPane.setBackground(new Color(255, 255, 255));
+		contentPanel.add(playerPane, BorderLayout.WEST);
+		playerPane.setLayout(new BorderLayout(0, 0));
+		JButton endTurn = new JButton("End turn");
+		playerPane.add(endTurn, BorderLayout.NORTH);
+		trainerIcon = new JLabel("");
+		int trainerImage = new Random().nextInt(6);
+		trainerIcon.setIcon(new ImageIcon(ResourceManager.getInstance().getSprite("trainer" + trainerImage)));
+		playerPane.add(trainerIcon);
+		pokePanelHolder = new JPanel();
+		pokePanelHolder.setBackground(new Color(255, 255, 255));
+		contentPanel.add(pokePanelHolder, BorderLayout.CENTER);
+
+		pokePanels = new ArrayList<>();
+		for (int i = 0; i < 3; i++) {
+			//PokemonPanel pokePanel = new PokemonPanel();
+			//pokePanels.add(pokePanel);
+			//pokePanelHolder.add(pokePanel);
 		}
 	}
 

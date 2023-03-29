@@ -19,8 +19,15 @@ public class Partida {
     }
 
     public void iniciar(){
-        new BattleDialog().setVisible(true);
+        Jugador j1 = new Jugador("Jugador 1");
+        Jugador j2 = new Jugador("Jugador 2");
+        jugadores.add(j1);
+        jugadores.add(j2);
+
+
         new BattleDialog().setVisible(true);
         new BattleDialog().setVisible(true);
     }
+
+
 }

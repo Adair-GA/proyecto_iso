@@ -1,6 +1,7 @@
 package view;
 
 import modelo.Partida;
+import modelo.ResourceManager;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -85,7 +86,7 @@ public class mainPanel extends JFrame {
 	private JLabel getMainImage() {
 		if (mainImage == null) {
 			mainImage = new JLabel("");
-			mainImage.setIcon(new ImageIcon(Objects.requireNonNull(getClass().getResource("/sprites/main.png"))));
+			mainImage.setIcon(new ImageIcon(ResourceManager.getInstance().getSprite("main")));
 		}
 		return mainImage;
 	}

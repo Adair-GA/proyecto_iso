@@ -1,17 +1,15 @@
 package view;
 
 import modelo.Pokemon;
+import modelo.ResourceManager;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.Color;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
 import java.awt.BorderLayout;
-import javax.swing.JTextArea;
-import javax.swing.JProgressBar;
 import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 public class PokemonPanel extends JPanel implements Observer {
 	private final String info = """
@@ -41,7 +39,7 @@ public class PokemonPanel extends JPanel implements Observer {
 		infoTextArea = new JTextArea();
 		infoTextArea.setText(info);
 		add(infoTextArea);
-		
+
 		lblNewLabel = new JLabel("");
 		add(lblNewLabel);
 		
