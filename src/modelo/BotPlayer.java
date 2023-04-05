@@ -17,9 +17,11 @@ public class BotPlayer extends Jugador {
             for (int attacker = 0; attacker < 3; attacker++) {
                 Pokemon poke = getPokemon(attacker);
                 int receiverIndex;
+                int tries = 0;
                 do{
                     receiverIndex = randGen.nextInt(3);
-                }while (Partida.getPartida().getPokemon(0,receiverIndex).isFainted());
+                    tries++;
+                }while (Partida.getPartida().getPokemon(0,receiverIndex).isFainted() && tries < 10);
                 if (!poke.isFainted()) {
                     BattleDirector.getInstance().setAttacker(1, attacker);
                     BattleDirector.getInstance().setReceiver(0, receiverIndex);

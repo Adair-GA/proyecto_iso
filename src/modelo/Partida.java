@@ -25,9 +25,6 @@ public class Partida {
         Jugador j2 = new BotPlayer(1);
         jugadores.add(j1);
         jugadores.add(j2);
-
-        new BattleDialog(0).setVisible(true);
-        new BattleDialog(1).setVisible(true);
         jugadores.forEach(Jugador::updateAllPokemons);
         jugadores.get(0).startTurn();
     }
@@ -79,6 +76,11 @@ public class Partida {
 
     public boolean hasTurn(int id){
         return jugadores.get(id).hasTurn();
+    }
+
+    public void update(){
+        jugadores.forEach(Jugador::update);
+        jugadores.forEach(Jugador::updateAllPokemons);
     }
 
 }

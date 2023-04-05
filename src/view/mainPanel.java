@@ -220,6 +220,12 @@ public class mainPanel extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == btnStart) {
 				Partida.getPartida().iniciar();
+				//TODO no se puede crear el dialogo de batalla hasta que no se haya creado la partida pero da un IndexOutOfBounds
+
+				new BattleDialog(0).setVisible(true);
+				new BattleDialog(1).setVisible(true);
+
+				Partida.getPartida().update();
 				mainPanel.setInvisible();
 			}
 		}
