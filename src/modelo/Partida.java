@@ -51,10 +51,7 @@ public class Partida {
         BattleDirector.getInstance().reset();
         jugadores.forEach(Jugador::resetAttackOfAll);
         jugadores.get(trainerID).endTurn();
-        Random randGen = new Random();
-        int randomPlayer = randGen.nextInt(2);
-        jugadores.get(randomPlayer).startTurn();
-        jugadores.forEach(Jugador::update);
+
         Iterator<Jugador> it = getIterador();
         while (it.hasNext()){
             if (it.next().allFainted()){
@@ -62,7 +59,10 @@ public class Partida {
                 System.exit(0);
             }
         }
-
+        Random randGen = new Random();
+        int randomPlayer = randGen.nextInt(2);
+        jugadores.get(randomPlayer).startTurn();
+        jugadores.forEach(Jugador::update);
     }
 
     private Iterator<Jugador> getIterador(){
@@ -77,9 +77,6 @@ public class Partida {
         return jugadores.get(id);
     }
 
-    public boolean isBot(int id){
-        return jugadores.get(id) instanceof BotPlayer;
-    }
     public boolean hasTurn(int id){
         return jugadores.get(id).hasTurn();
     }

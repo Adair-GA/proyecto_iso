@@ -20,13 +20,13 @@ public class PokemonPanel extends JPanel implements Observer {
 			type: %s
 			""";
 
-	private int trainerID;
-	private int pokemonID;
+	private final int trainerID;
+	private final int pokemonID;
 	private JTextArea infoTextArea;
 	private JLabel pokemonIcon;
-	private JPanel panel;
-	private JProgressBar life;
-	private JProgressBar euphoricMeter;
+	private final JPanel panel;
+	private final JProgressBar life;
+	private final JProgressBar euphoricMeter;
 	private boolean hasAttacked = false;
 
 
@@ -65,6 +65,7 @@ public class PokemonPanel extends JPanel implements Observer {
 		euphoricMeter.setForeground(new Color(234, 0, 215, 178));
 		euphoricMeter.setString("Euphoric");
 		panel.add(euphoricMeter);
+
 		//TODO remove when done
 		euphoricMeter.setVisible(false);
 
