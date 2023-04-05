@@ -86,7 +86,7 @@ public class mainPanel extends JFrame {
 	private JLabel getMainImage() {
 		if (mainImage == null) {
 			mainImage = new JLabel("");
-			mainImage.setIcon(new ImageIcon(ResourceManager.getInstance().getSprite("main")));
+			mainImage.setIcon(ResourceManager.getInstance().getSprite("main"));
 		}
 		return mainImage;
 	}
