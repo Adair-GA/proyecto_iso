@@ -7,6 +7,8 @@ import java.util.Iterator;
 import java.util.Observable;
 import java.util.Random;
 
+import static java.lang.Thread.sleep;
+
 public class Partida extends Observable {
     private static Partida partida = null;
     private ArrayList<Jugador> jugadores;
@@ -60,12 +62,24 @@ public class Partida extends Observable {
         jugadores.get(trainerID).endTurn();
 
         Iterator<Jugador> it = getIterador();
+        Jugador loser = null;
         while (it.hasNext()){
-            if (it.next().allFainted()){
-                //todo
-                System.out.println("Game Over");
-                System.exit(0);
+            Jugador j = it.next();
+            if (j.allFainted()) {
+                loser = j;
             }
+            }
+        if (loser != null){
+            Jugador finalLoser = loser;
+            jugadores.forEach(jugador -> {
+                if (jugador != finalLoser){
+                    jugador.win();
+                }
+                else {
+                    jugador.lose();
+                }
+            });
+            System.exit(0);
         }
         Random randGen = new Random();
         int randomPlayer = randGen.nextInt(2);

@@ -69,12 +69,19 @@ public class BattleDialog extends JFrame implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		boolean hasTurn = (boolean) arg;
-		if (hasTurn) {
-			endTurn.setEnabled(true);
-		} else {
-			endTurn.setEnabled(false);
+		boolean[] data = (boolean[])arg;
+		boolean hasTurn = data[0];
+		boolean hasEnded = data[1];
+		boolean isWinner = data[2];
+		if (hasEnded) {
+			if (isWinner) {
+				JOptionPane.showMessageDialog(this, "You win!");
+			} else {
+				JOptionPane.showMessageDialog(this, "You lose!");
+			}
+			dispose();
 		}
+		endTurn.setEnabled(hasTurn);
 	}
 
 	class Controlador implements ActionListener {

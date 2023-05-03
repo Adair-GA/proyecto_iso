@@ -47,10 +47,23 @@ public class Jugador extends Observable {
 
     public void update() {
         setChanged();
-        notifyObservers(hasTurn);
+        boolean[] data = {hasTurn, false, false};
+        notifyObservers(data);
     }
     public int getId() {
         return id;
+    }
+
+    public void win(){
+        setChanged();
+        boolean[] data = {false, true, true};
+        notifyObservers(data);
+    }
+
+    public void lose(){
+        setChanged();
+        boolean[] data = {false, true, false};
+        notifyObservers(data);
     }
 
     public void resetAttackOfAll(){
