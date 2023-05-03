@@ -1,5 +1,7 @@
 package modelo;
 
+import modelo.pokemons.Pokemon;
+
 import java.util.Random;
 
 public class BotPlayer extends Jugador {

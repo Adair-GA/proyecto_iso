@@ -28,6 +28,7 @@ public class PokemonPanel extends JPanel implements Observer {
 	private final JProgressBar life;
 	private final JProgressBar euphoricMeter;
 	private boolean hasAttacked = false;
+	private int evol;
 
 
 	/**
@@ -66,9 +67,7 @@ public class PokemonPanel extends JPanel implements Observer {
 		euphoricMeter.setString("Euphoric");
 		panel.add(euphoricMeter);
 
-		//TODO remove when done
-		euphoricMeter.setVisible(false);
-
+		this.evol = 1;
 	}
 
 	private class PokemonUpdateData{
@@ -83,6 +82,8 @@ public class PokemonPanel extends JPanel implements Observer {
 		boolean fainted;
 		String type;
 		boolean hasAttacked;
+		boolean isCharged;
+		int evolutionLevel;
 
 		PokemonUpdateData(Object[] args) {
 			hp = (int) args[0];
@@ -96,6 +97,8 @@ public class PokemonPanel extends JPanel implements Observer {
 			fainted = (boolean) args[8];
 			type = (String) args[9];
 			hasAttacked = (boolean) args[10];
+			isCharged = (boolean) args[11];
+			evolutionLevel = (int) args[12];
 		}
 	}
 
@@ -109,7 +112,8 @@ public class PokemonPanel extends JPanel implements Observer {
 		euphoricMeter.setValue(data.charge);
 		euphoricMeter.setMaximum(data.chargeMax);
 		this.hasAttacked = data.hasAttacked;
-		pokemonIcon.setIcon(ResourceManager.getInstance().getSprite(data.type, 1));
+		this.evol = data.evolutionLevel + 1;
+		pokemonIcon.setIcon(ResourceManager.getInstance().getSprite(data.type, evol));
 		if (data.fainted) {
 			pokemonIcon.setIcon(ResourceManager.getInstance().getGrave());
 		}

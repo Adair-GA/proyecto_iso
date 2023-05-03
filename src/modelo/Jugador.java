@@ -1,5 +1,7 @@
 package modelo;
 
+import modelo.pokemons.Pokemon;
+
 import java.util.ArrayList;
 import java.util.Observable;
 

@@ -1,5 +1,7 @@
 package modelo;
 
+import modelo.pokemons.Pokemon;
+
 public class BattleDirector {
     private static BattleDirector instance = null;
     private Pokemon attacker;
@@ -30,14 +32,13 @@ public class BattleDirector {
 
         Pokemon pokemon = Partida.getPartida().getPokemon(tID, pID);
         System.out.println("Defensor: " + tID + " " + pID);
-        pokemon.receiveDamage(calculateDamage(this.attacker, pokemon));
+        pokemon.receiveDamage(this.attacker);
+        if (attacker.isCharged()){
+            attacker.discharge();
+        }
         this.attacker = null;
     }
 
-    private int calculateDamage(Pokemon attacker, Pokemon defender) {
-        //TODO hacerlas bien
-        return attacker.getAttack() - defender.getDefense();
-    }
 
     public void reset() {
         this.attacker = null;

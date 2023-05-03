@@ -1,7 +1,6 @@
 package view;
 
 import modelo.Partida;
-import modelo.PokemonFactory;
 import modelo.ResourceManager;
 
 import java.awt.BorderLayout;
@@ -11,10 +10,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Random;
 
 public class BattleDialog extends JFrame implements Observer {
 
@@ -66,7 +63,7 @@ public class BattleDialog extends JFrame implements Observer {
 		for (int i = 0; i < 3; i++) {
 			PokemonPanel pokePanel = new PokemonPanel(trainerID,i);
 			pokePanelHolder.add(pokePanel);
-			Partida.getPartida().createAndAddPokemon().addObserver(pokePanel);
+			Partida.getPartida().getPlayer(trainerID).getPokemon(i).addObserver(pokePanel);
 		}
 	}
 

@@ -1,12 +1,13 @@
 package modelo;
 
-import view.BattleDialog;
+import modelo.pokemons.Pokemon;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Observable;
 import java.util.Random;
 
-public class Partida {
+public class Partida extends Observable {
     private static Partida partida = null;
     private ArrayList<Jugador> jugadores;
 
@@ -25,8 +26,17 @@ public class Partida {
         Jugador j2 = new BotPlayer(1);
         jugadores.add(j1);
         jugadores.add(j2);
+        for (Jugador j: jugadores) {
+            for (int i = 0; i < 3; i++) {
+                j.addPokemon(PokemonFactory.createPokemon());
+            }
+        }
         jugadores.forEach(Jugador::updateAllPokemons);
-        jugadores.get(0).startTurn();
+        Random randGen = new Random();
+        int randomPlayer = randGen.nextInt(2);
+        jugadores.get(randomPlayer).startTurn();
+        this.setChanged();
+        this.notifyObservers();
     }
 
     public Pokemon createAndAddPokemon(){
@@ -52,6 +62,7 @@ public class Partida {
         Iterator<Jugador> it = getIterador();
         while (it.hasNext()){
             if (it.next().allFainted()){
+                //todo
                 System.out.println("Game Over");
                 System.exit(0);
             }
