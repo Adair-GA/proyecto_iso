@@ -28,7 +28,7 @@ public class BattleDialog extends JFrame implements Observer {
 	 */
 	public BattleDialog(int id, boolean isPlayer, int pokemonCount) {
 		trainerID=id;
-		setBounds(100, 100, 150 + (pokemonCount * 146), 450);
+		setBounds(100 + (id * 90), 100 + (id * 90), 150 + (pokemonCount * 160), 450);
 		setDefaultCloseOperation(3);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(255, 255, 255));

@@ -6,8 +6,10 @@ import javax.sound.midi.Receiver;
 import java.util.Random;
 
 public class BotPlayer extends Jugador {
-    public BotPlayer(int id) {
+    private int sleepTime;
+    public BotPlayer(int id, int sleepTime) {
         super(id);
+        this.sleepTime = sleepTime;
     }
 
     @Override
@@ -34,7 +36,7 @@ public class BotPlayer extends Jugador {
                     BattleDirector.getInstance().setReceiver(receiverTrainer, receiverIndex);
                     //sleep for half a second
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(sleepTime);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }

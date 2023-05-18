@@ -24,14 +24,14 @@ public class Partida extends Observable {
         return partida;
     }
 
-    public void iniciar(int playerCount, int botCount, int pokemonCount){
+    public void iniciar(int playerCount, int botCount, int pokemonCount, int botSleepTime){
         Jugador nuevo;
         for (int i = 0; i < playerCount; i++) {
             nuevo = new Jugador(i);
             jugadores.add(nuevo);
         }
         for (int i = 0; i < botCount; i++) {
-            nuevo = new BotPlayer(i + playerCount);
+            nuevo = new BotPlayer(i + playerCount, botSleepTime);
             jugadores.add(nuevo);
         }
         for (Jugador j: jugadores) {

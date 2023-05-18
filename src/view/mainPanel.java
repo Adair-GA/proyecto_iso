@@ -171,7 +171,7 @@ public class mainPanel extends JFrame implements Observer {
 	private JTextField getMsRoundTextField() {
 		if (msRoundTextField == null) {
 			msRoundTextField = new JTextField();
-			msRoundTextField.setText("2000");
+			msRoundTextField.setText("500");
 			msRoundTextField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			msRoundTextField.setHorizontalAlignment(SwingConstants.CENTER);
 			msRoundTextField.setForeground(new Color(255, 153, 0));
@@ -237,8 +237,8 @@ public class mainPanel extends JFrame implements Observer {
 				int playerCount = Integer.parseInt(playerCountTextField.getText());
 				int bots = Integer.parseInt(npcsTextField.getText());
 				int pokemonCount = Integer.parseInt(pokemonCountTextField.getText());
-
-				Partida.getPartida().iniciar(playerCount, bots, pokemonCount);
+				int msRound = Integer.parseInt(msRoundTextField.getText());
+				Partida.getPartida().iniciar(playerCount, bots, pokemonCount, msRound);
 				Partida.getPartida().update();
 			}
 		}
