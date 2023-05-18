@@ -2,6 +2,7 @@ package modelo;
 
 import modelo.pokemons.Pokemon;
 
+import javax.sound.midi.Receiver;
 import java.util.Random;
 
 public class BotPlayer extends Jugador {
@@ -13,20 +14,24 @@ public class BotPlayer extends Jugador {
     public void startTurn() {
         super.startTurn();
 
-        //create a thread
         Thread t = new Thread(() -> {
             Random randGen = new Random();
-            for (int attacker = 0; attacker < 3; attacker++) {
+            for (int attacker = 0; attacker < this.pokemonCount(); attacker++) {
                 Pokemon poke = getPokemon(attacker);
                 int receiverIndex;
-                int tries = 0;
-                do{
-                    receiverIndex = randGen.nextInt(3);
-                    tries++;
-                }while (Partida.getPartida().getPokemon(0,receiverIndex).isFainted() && tries < 10);
+                receiverIndex = randGen.nextInt(pokemonCount());
+                int receiverTrainer = randGen.nextInt(Partida.getPartida().getPlayerCount());
+                while (receiverTrainer == getId() || Partida.getPartida().getPlayer(receiverTrainer).allFainted()) {
+                    receiverTrainer = randGen.nextInt(Partida.getPartida().getPlayerCount());
+                }
+                int i = 0;
+                while (Partida.getPartida().getPlayer(receiverTrainer).getPokemon(receiverIndex).isFainted() && i < pokemonCount()) {
+                    receiverIndex = receiverIndex + 1 % (pokemonCount() - 1);
+                }
+
                 if (!poke.isFainted()) {
-                    BattleDirector.getInstance().setAttacker(1, attacker);
-                    BattleDirector.getInstance().setReceiver(0, receiverIndex);
+                    BattleDirector.getInstance().setAttacker(this.getId(), attacker);
+                    BattleDirector.getInstance().setReceiver(receiverTrainer, receiverIndex);
                     //sleep for half a second
                     try {
                         Thread.sleep(100);

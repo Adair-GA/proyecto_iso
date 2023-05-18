@@ -26,10 +26,9 @@ public class BattleDialog extends JFrame implements Observer {
 	/**
 	 * Create the dialog.
 	 */
-	public BattleDialog(int id) {
+	public BattleDialog(int id, boolean isPlayer, int pokemonCount) {
 		trainerID=id;
-
-		setBounds(100, 100, 650, 450);
+		setBounds(100, 100, 150 + (pokemonCount * 146), 450);
 		setDefaultCloseOperation(3);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(255, 255, 255));
@@ -50,7 +49,7 @@ public class BattleDialog extends JFrame implements Observer {
 		pokePanelHolder.setBackground(new Color(255, 255, 255));
 		contentPanel.add(pokePanelHolder, BorderLayout.CENTER);
 
-		if (trainerID==0) {
+		if (isPlayer) {
 			setTitle("Player");
 		} else {
 			setTitle("Bot");
@@ -60,7 +59,7 @@ public class BattleDialog extends JFrame implements Observer {
 		Partida.getPartida().getPlayer(trainerID).addObserver(this);
 
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < pokemonCount; i++) {
 			PokemonPanel pokePanel = new PokemonPanel(trainerID,i);
 			pokePanelHolder.add(pokePanel);
 			Partida.getPartida().getPlayer(trainerID).getPokemon(i).addObserver(pokePanel);

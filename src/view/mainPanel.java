@@ -74,7 +74,7 @@ public class mainPanel extends JFrame implements Observer {
 		contentPane.add(getMainImage());
 		contentPane.add(getControlsPanel(), BorderLayout.EAST);
 	}
-	
+
 	private Controler getControler() {
 		if (controler == null) {
 			controler = new Controler();
@@ -86,6 +86,7 @@ public class mainPanel extends JFrame implements Observer {
 		public void actionPerformed(ActionEvent e) {
 		}
 	}
+
 	private JLabel getMainImage() {
 		if (mainImage == null) {
 			mainImage = new JLabel("");
@@ -93,6 +94,7 @@ public class mainPanel extends JFrame implements Observer {
 		}
 		return mainImage;
 	}
+
 	private JPanel getControlsPanel() {
 		if (controlsPanel == null) {
 			controlsPanel = new JPanel();
@@ -115,6 +117,7 @@ public class mainPanel extends JFrame implements Observer {
 		}
 		return controlsPanel;
 	}
+
 	private JLabel getPlayersLabel() {
 		if (playersLabel == null) {
 			playersLabel = new JLabel("players");
@@ -122,6 +125,7 @@ public class mainPanel extends JFrame implements Observer {
 		}
 		return playersLabel;
 	}
+
 	private JLabel getNpcsLabel() {
 		if (npcsLabel == null) {
 			npcsLabel = new JLabel("NPCs");
@@ -129,6 +133,7 @@ public class mainPanel extends JFrame implements Observer {
 		}
 		return npcsLabel;
 	}
+
 	private JTextField getPlayerCountTextField() {
 		if (playerCountTextField == null) {
 			playerCountTextField = new JTextField();
@@ -141,6 +146,7 @@ public class mainPanel extends JFrame implements Observer {
 		}
 		return playerCountTextField;
 	}
+
 	private JTextField getNpcsTextField() {
 		if (npcsTextField == null) {
 			npcsTextField = new JTextField();
@@ -153,6 +159,7 @@ public class mainPanel extends JFrame implements Observer {
 		}
 		return npcsTextField;
 	}
+
 	private JLabel getMsRoundLabel() {
 		if (msRoundLabel == null) {
 			msRoundLabel = new JLabel("ms/round");
@@ -160,6 +167,7 @@ public class mainPanel extends JFrame implements Observer {
 		}
 		return msRoundLabel;
 	}
+
 	private JTextField getMsRoundTextField() {
 		if (msRoundTextField == null) {
 			msRoundTextField = new JTextField();
@@ -172,6 +180,7 @@ public class mainPanel extends JFrame implements Observer {
 		}
 		return msRoundTextField;
 	}
+
 	private JLabel getPokemonCountLabel() {
 		if (pokemonCountLabel == null) {
 			pokemonCountLabel = new JLabel("PokéMons");
@@ -179,6 +188,7 @@ public class mainPanel extends JFrame implements Observer {
 		}
 		return pokemonCountLabel;
 	}
+
 	private JTextField getPokemonCountTextField() {
 		if (pokemonCountTextField == null) {
 			pokemonCountTextField = new JTextField();
@@ -194,12 +204,14 @@ public class mainPanel extends JFrame implements Observer {
 	private JLabel emptyLabel() {
 		return new JLabel("");
 	}
+
 	private JButton getBtnReadme() {
 		if (btnReadme == null) {
 			btnReadme = new JButton("readme");
 		}
 		return btnReadme;
 	}
+
 	private JButton getBtnStart() {
 		if (btnStart == null) {
 			btnStart = new JButton("start");
@@ -222,7 +234,11 @@ public class mainPanel extends JFrame implements Observer {
 	class Controlador implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == btnStart) {
-				Partida.getPartida().iniciar();
+				int playerCount = Integer.parseInt(playerCountTextField.getText());
+				int bots = Integer.parseInt(npcsTextField.getText());
+				int pokemonCount = Integer.parseInt(pokemonCountTextField.getText());
+
+				Partida.getPartida().iniciar(playerCount, bots, pokemonCount);
 				Partida.getPartida().update();
 			}
 		}
@@ -231,8 +247,15 @@ public class mainPanel extends JFrame implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		mainPanel.setInvisible();
-		new BattleDialog(0).setVisible(true);
-		new BattleDialog(1).setVisible(true);
+		int playerCount = Integer.parseInt(playerCountTextField.getText());
+		int bots = Integer.parseInt(npcsTextField.getText());
+		int pokemonCount = Integer.parseInt(pokemonCountTextField.getText());
+		for (int i = 0; i < playerCount; i++) {
+			new BattleDialog(i, true, pokemonCount).setVisible(true);
+		}
+		for (int i = 0; i < bots; i++) {
+			new BattleDialog(i + playerCount, false, pokemonCount).setVisible(true);
+		}
 	}
 
 }

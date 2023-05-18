@@ -12,6 +12,7 @@ import static java.lang.Thread.sleep;
 public class Partida extends Observable {
     private static Partida partida = null;
     private ArrayList<Jugador> jugadores;
+    private int cantPokemon;
 
     private Partida() {
         jugadores = new ArrayList<>();
@@ -23,56 +24,45 @@ public class Partida extends Observable {
         return partida;
     }
 
-    public void iniciar(){
-        Jugador j1 = new Jugador(0);
-        Jugador j2 = new BotPlayer(1);
-        jugadores.add(j1);
-        jugadores.add(j2);
+    public void iniciar(int playerCount, int botCount, int pokemonCount){
+        Jugador nuevo;
+        for (int i = 0; i < playerCount; i++) {
+            nuevo = new Jugador(i);
+            jugadores.add(nuevo);
+        }
+        for (int i = 0; i < botCount; i++) {
+            nuevo = new BotPlayer(i + playerCount);
+            jugadores.add(nuevo);
+        }
         for (Jugador j: jugadores) {
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < pokemonCount; i++) {
                 j.addPokemon(PokemonFactory.createPokemon());
             }
         }
         jugadores.forEach(Jugador::updateAllPokemons);
         Random randGen = new Random();
-        int randomPlayer = randGen.nextInt(2);
+        int randomPlayer = randGen.nextInt(jugadores.size());
         jugadores.get(randomPlayer).startTurn();
         this.setChanged();
         this.notifyObservers();
     }
 
-    public Pokemon createAndAddPokemon(){
-        Pokemon poke = PokemonFactory.createPokemon();
-        Iterator<Jugador> it = getIterador();
-        Jugador j;
-        while (it.hasNext()){
-            j = it.next();
-            if (j.pokemonCount()<3){
-                j.addPokemon(poke);
-                return poke;
-            }
-        }
-        return null;
-    }
-
     public void endPlayingTurn(int trainerID){
-        //A turn has ended, so we should give turn to a random player
         BattleDirector.getInstance().reset();
         jugadores.forEach(Jugador::resetAttackOfAll);
         jugadores.get(trainerID).endTurn();
 
         Iterator<Jugador> it = getIterador();
-        Jugador loser = null;
+        int loser = 0;
         while (it.hasNext()){
             Jugador j = it.next();
             if (j.allFainted()) {
-                loser = j;
+                loser++;
             }
             }
-        if (loser != null){
-            Jugador finalLoser = loser;
+        if (loser == getPlayerCount() - 1){
             jugadores.forEach(jugador -> {
-                if (jugador != finalLoser){
+                if (!jugador.allFainted()){
                     jugador.win();
                 }
                 else {
@@ -82,7 +72,7 @@ public class Partida extends Observable {
             System.exit(0);
         }
         Random randGen = new Random();
-        int randomPlayer = randGen.nextInt(2);
+        int randomPlayer = randGen.nextInt(getPlayerCount());
         jugadores.get(randomPlayer).startTurn();
         jugadores.forEach(Jugador::update);
     }
@@ -99,6 +89,10 @@ public class Partida extends Observable {
         return jugadores.get(id);
     }
 
+    public boolean isDefeated(int id){
+        return jugadores.get(id).allFainted();
+    }
+
     public boolean hasTurn(int id){
         return jugadores.get(id).hasTurn();
     }
@@ -108,4 +102,7 @@ public class Partida extends Observable {
         jugadores.forEach(Jugador::updateAllPokemons);
     }
 
+    public int getPlayerCount(){
+        return jugadores.size();
+    }
 }
