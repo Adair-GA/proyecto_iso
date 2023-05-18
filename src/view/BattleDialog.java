@@ -1,7 +1,6 @@
 package view;
 
 import modelo.Partida;
-import modelo.ResourceManager;
 
 import java.awt.BorderLayout;
 

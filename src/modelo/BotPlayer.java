@@ -28,7 +28,7 @@ public class BotPlayer extends Jugador {
                 }
                 int i = 0;
                 while (Partida.getPartida().getPlayer(receiverTrainer).getPokemon(receiverIndex).isFainted() && i < pokemonCount()) {
-                    receiverIndex = receiverIndex + 1 % (pokemonCount() - 1);
+                    receiverIndex = (receiverIndex + 1) % pokemonCount();
                 }
 
                 if (!poke.isFainted()) {

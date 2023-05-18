@@ -1,7 +1,8 @@
-package modelo;
+package view;
+
+import modelo.PokemonTypes;
 
 import javax.swing.*;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Random;

@@ -2,7 +2,6 @@ package view;
 
 import modelo.BattleDirector;
 import modelo.Partida;
-import modelo.ResourceManager;
 
 import javax.swing.*;
 import java.awt.*;
