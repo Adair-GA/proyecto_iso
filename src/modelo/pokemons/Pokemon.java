@@ -1,6 +1,7 @@
 package modelo.pokemons;
 
 import modelo.PokemonTypes;
+import modelo.pokemons.state.*;
 
 import java.util.Observable;
 import java.util.Random;
@@ -8,17 +9,15 @@ import java.util.Random;
 public abstract class Pokemon extends Observable {
     private int hp;
     private final int maxHp;
-    private int atk;
-    private int atkbst = 0;
-    private int def;
-    private int defbst = 0;
+    private final int atk;
+    private final int def;
     private int charge;
     private final int chargeMax;
     private boolean fainted;
     private PokemonTypes type;
     private boolean hasAttacked;
-    private boolean isCharged;
-    private int evolutionLevel;
+    private IStatus isCharged;
+    private IStatus evolutionLevel;
 
     public Pokemon() {
         Random randGen = new Random();
@@ -31,8 +30,8 @@ public abstract class Pokemon extends Observable {
         this.charge = 0;
         this.fainted = false;
         this.hasAttacked = false;
-        this.isCharged = false;
-        this.evolutionLevel = 0;
+        this.isCharged = new NotEuphoric();
+        this.evolutionLevel = new Evol1();
     }
 
     protected void setType(PokemonTypes type) {
@@ -59,13 +58,17 @@ public abstract class Pokemon extends Observable {
 
     public void update(){
         setChanged();
-        Object[] data = {hp,maxHp,atk,atkbst,def,defbst,charge,chargeMax,fainted,type.name(),hasAttacked,isCharged,evolutionLevel};
+        int atkbst = this.evolutionLevel.atkBoost() + this.isCharged.atkBoost();
+        int defbst = this.evolutionLevel.defBoost() + this.isCharged.defBoost();
+        boolean chargeForUpdate = this.isCharged instanceof Euphoric;
+        int evol = this.evolutionLevel.level();
+        Object[] data = {hp,maxHp,atk,atkbst,def,defbst,charge,chargeMax,fainted,type.name(),hasAttacked,chargeForUpdate,evol};
         notifyObservers(data);
     }
 
 
     private void updateStatus(){
-        if (!isCharged) {
+        if (isCharged instanceof NotEuphoric) {
             charge++;
             if (charge == chargeMax) {
                 charged();
@@ -75,44 +78,28 @@ public abstract class Pokemon extends Observable {
     }
 
     private void evolve() {
-        if (this.evolutionLevel == 0 && this.hp < this.maxHp * 0.5) {
-            evolve1();
-        } else if (this.evolutionLevel != 2 && this.hp < this.maxHp * 0.25) {
-            evolve2();
+        if (this.evolutionLevel instanceof Evol1 && this.hp < this.maxHp * 0.5) {
+            this.evolutionLevel = new Evol2();
+        } else if (!(this.evolutionLevel instanceof Evol3) && this.hp < this.maxHp * 0.25) {
+            this.evolutionLevel = new Evol3();
         }
-    }
-
-    private void evolve2() {
-        this.evolutionLevel = 2;
-        this.atkbst += 2;
-        this.defbst += 2;
-    }
-
-    private void evolve1() {
-        this.evolutionLevel = 1;
-        this.atkbst += 5;
-        this.defbst += 3;
     }
 
     public void discharge() {
         this.charge = 0;
-        this.atkbst -= 100;
-        this.defbst -= 100;
-        this.isCharged = false;
+        this.isCharged = new NotEuphoric();
     }
 
     private void charged() {
-        this.isCharged = true;
-        this.atkbst += 100;
-        this.defbst += 100;
+        this.isCharged = new Euphoric();
     }
 
     public int getAttack() {
-        return this.atk + this.atkbst;
+        return this.atk + this.evolutionLevel.atkBoost() + this.isCharged.atkBoost();
     }
 
     public int getDefense() {
-        return this.def + this.defbst;
+        return this.def + this.evolutionLevel.defBoost() + this.isCharged.defBoost();
     }
 
     public boolean isFainted() {
@@ -132,6 +119,6 @@ public abstract class Pokemon extends Observable {
     }
 
     public boolean isCharged() {
-        return this.isCharged;
+        return this.isCharged instanceof Euphoric;
     }
 }

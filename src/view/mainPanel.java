@@ -224,13 +224,13 @@ public class mainPanel extends JFrame implements Observer {
 			if (e.getSource() == btnStart) {
 				Partida.getPartida().iniciar();
 				Partida.getPartida().update();
-				mainPanel.setInvisible();
 			}
 		}
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
+		mainPanel.setInvisible();
 		new BattleDialog(0).setVisible(true);
 		new BattleDialog(1).setVisible(true);
 	}
